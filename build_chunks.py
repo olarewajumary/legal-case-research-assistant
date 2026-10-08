@@ -5,13 +5,20 @@ from chunker import chunk_paragraphs
 
 RAW_DIR = os.path.join("data", "raw")
 OUT_PATH = os.path.join("data", "chunks.json")
+MARKERS = ["not appropriate for publication", "not precedent"]
 
 all_chunks = []
+flagged = []
 for name in sorted(os.listdir(RAW_DIR)):
     with open(os.path.join(RAW_DIR, name), encoding="utf-8") as f:
         rec = json.load(f)
-    chunks = chunk_paragraphs(extract_paragraphs(rec["text"]))
-    for i, text in enumerate(chunks):
+    paragraphs = extract_paragraphs(rec["text"])
+    full_text = " ".join(" ".join(paragraphs).lower().split())
+    unpublished = any(m in full_text for m in MARKERS)
+    if unpublished:
+        flagged.append((rec["opinion_id"], rec["case_name"]))
+
+    for i, text in enumerate(chunk_paragraphs(paragraphs)):
         all_chunks.append({
             "chunk_id": f"{rec['opinion_id']}-{i}",
             "opinion_id": rec["opinion_id"],
@@ -21,6 +28,7 @@ for name in sorted(os.listdir(RAW_DIR)):
             "date_filed": rec["date_filed"],
             "citation": rec["citation"],
             "url": rec["url"],
+            "unpublished": unpublished,
             "text": text,
         })
 
@@ -29,5 +37,6 @@ with open(OUT_PATH, "w", encoding="utf-8") as f:
 
 print("chunks written:", len(all_chunks))
 print("unique chunk ids:", len({c["chunk_id"] for c in all_chunks}))
-print("file size (bytes):", os.path.getsize(OUT_PATH))
-print("example:", all_chunks[0]["chunk_id"], "|", all_chunks[0]["case_name"][:40])
+print("flagged unpublished opinions:", len(flagged))
+for oid, case in flagged:
+    print("  ", oid, case)
