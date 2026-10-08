@@ -3,7 +3,7 @@ import os
 import re
 from text_extract import extract_paragraphs
 
-MAX_CHARS = 1000
+MAX_CHARS = 800
 
 
 ABBREV_END = re.compile(
@@ -21,6 +21,16 @@ def split_long(paragraph, max_chars=MAX_CHARS):
             sentences[-1] = f"{sentences[-1]} {piece}"
         else:
             sentences.append(piece)
+
+    # Fallback: a sentence that is still too long is probably a string cite,
+    # so split it at the semicolons between citations.
+    shorter = []
+    for s in sentences:
+        if len(s) > max_chars:
+            shorter.extend(re.split(r"(?<=;)\s+", s))
+        else:
+            shorter.append(s)
+    sentences = shorter
 
     pieces, current = [], ""
     for s in sentences:
