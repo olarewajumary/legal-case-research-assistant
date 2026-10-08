@@ -12,12 +12,14 @@ JUDGE = (
     "You check how a source passage relates to a statement. Respond in exactly two lines.\n"
     "Line 1: QUOTE: <copy, word for word, the single sentence from the passage most relevant to the statement>\n"
     "Line 2: LABEL: <one of the following>\n"
-    "  ASSERTS - the passage states the statement as true\n"
+    "  ASSERTS - the passage states the statement, with the same scope and conditions\n"
+    "  OVERGENERAL - the passage supports only a narrower version: it applies a rule to specific facts, "
+    "or it adds a condition that the statement leaves out\n"
     "  CONTRADICTS - the passage states the opposite\n"
     "  CONDITIONAL_OR_WARNING - the passage mentions the statement only inside an 'if', as a hypothetical, "
     "or as something to avoid or criticize\n"
     "  NOT_STATED - the passage does not address the statement\n"
-    "Read the quoted sentence carefully, including words like 'if', 'not', 'no', and 'unless'."
+    "Read the quoted sentence carefully, including words like 'if', 'not', 'no', 'unless', and 'in this case'."
 )
 
 
