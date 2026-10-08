@@ -6,7 +6,7 @@ from groq import Groq
 
 load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-MODEL = os.getenv("GROQ_MODEL")
+MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]
 
 with open("data/chunks.json", encoding="utf-8") as f:
     by_id = {c["chunk_id"]: c["text"] for c in json.load(f)}
@@ -36,26 +36,30 @@ cases = [
      "9878807-9", False),
 ]
 
-correct = 0
-for statement, chunk_id, should_pass in cases:
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": JUDGE},
-            {"role": "user", "content": f"Passage:\n{by_id[chunk_id]}\n\nStatement: {statement}"},
-        ],
-        temperature=0,
-    )
-    choice = response.choices[0]
-    text = choice.message.content or ""
-    match = re.search(r"LABEL:\s*([A-Z_]+)", text)
-    label = match.group(1) if match else "UNPARSED"
-    passed = label == "ASSERTS"
-    ok = passed == should_pass
-    correct += ok
-    print(f"{'OK  ' if ok else 'MISS'} | label {label} | should pass: {should_pass} | {statement[:70]}")
-    print("      ", text.replace("\n", " ")[:220])
-    if choice.finish_reason != "stop":
-        print("       WARNING: finish reason", choice.finish_reason)
-
-print(f"\ncorrect: {correct} of {len(cases)}")
+for model in MODELS:
+    print(f"\n===== {model} =====")
+    correct = 0
+    for statement, chunk_id, should_pass in cases:
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": JUDGE},
+                    {"role": "user", "content": f"Passage:\n{by_id[chunk_id]}\n\nStatement: {statement}"},
+                ],
+                temperature=0,
+            )
+        except Exception as e:
+            print("FAILED:", type(e).__name__, "-", str(e)[:150])
+            break
+        choice = response.choices[0]
+        text = choice.message.content or ""
+        match = re.search(r"LABEL:\s*([A-Z_]+)", text)
+        label = match.group(1) if match else "UNPARSED"
+        ok = (label == "ASSERTS") == should_pass
+        correct += ok
+        print(f"{'OK  ' if ok else 'MISS'} | {label:<22} | should pass: {str(should_pass):<5} | {statement[:50]}")
+        if choice.finish_reason != "stop":
+            print("       WARNING: finish reason", choice.finish_reason)
+    else:
+        print(f"correct: {correct} of {len(cases)}")
