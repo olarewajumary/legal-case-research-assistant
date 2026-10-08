@@ -6,15 +6,30 @@ RAW_DIR = os.path.join("data", "raw")
 os.makedirs(RAW_DIR, exist_ok=True)
 
 TEXT_FIELDS = ["html_with_citations", "xml_harvard", "plain_text"]
+TYPE_PREFERENCE = ["lead-opinion", "combined-opinion"]
+
+
+def choose_opinion(hit):
+    """Pick the court's main opinion by type label, never by list position."""
+    by_type = {op["type"]: op for op in hit["opinions"]}
+    for wanted in TYPE_PREFERENCE:
+        if wanted in by_type:
+            return by_type[wanted]
+    return None
+
 
 resp = cl_get("search/", {"q": "qualified immunity", "type": "o", "court": "ca9"})
 print("search status:", resp.status_code)
 hits = resp.json()["results"][:10]
 
 for hit in hits:
-    opinion_id = hit["opinions"][0]["id"]
-    path = os.path.join(RAW_DIR, f"{opinion_id}.json")
+    chosen = choose_opinion(hit)
+    if chosen is None:
+        print(hit["caseName"][:35], "- no lead/combined opinion, types:", [o["type"] for o in hit["opinions"]])
+        continue
 
+    opinion_id = chosen["id"]
+    path = os.path.join(RAW_DIR, f"{opinion_id}.json")
     if os.path.exists(path):
         print(opinion_id, "already saved, skipping")
         continue
@@ -32,6 +47,7 @@ for hit in hits:
 
     record = {
         "opinion_id": opinion_id,
+        "opinion_type": chosen["type"],
         "cluster_id": hit["cluster_id"],
         "case_name": hit["caseName"],
         "court_id": hit["court_id"],
@@ -43,9 +59,10 @@ for hit in hits:
     }
     with open(path, "w", encoding="utf-8") as f:
         json.dump(record, f)
-    print(opinion_id, "saved from", source)
+    print(opinion_id, chosen["type"], "saved from", source)
 
 print("\nfiles in data/raw:")
 for name in sorted(os.listdir(RAW_DIR)):
-    size = os.path.getsize(os.path.join(RAW_DIR, name))
-    print(" ", name, size, "bytes")
+    with open(os.path.join(RAW_DIR, name), encoding="utf-8") as f:
+        rec = json.load(f)
+    print(f"  {name} | {os.path.getsize(os.path.join(RAW_DIR, name))} bytes | {rec.get('opinion_type', 'type not recorded')} | {rec['case_name'][:30]}")
