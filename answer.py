@@ -9,7 +9,11 @@ MODEL = os.getenv("GROQ_MODEL")
 
 SYSTEM = (
     "You are a legal research assistant. Answer the question using ONLY the numbered "
-    "sources provided. Cite each claim with its source number in square brackets, like [1]. "
+    "sources provided. Write short statements. After each statement, give the source number "
+    "in square brackets and a verbatim quote (at most 25 words) from that source that "
+    "supports it, like this: Statement text. [2] \"exact words from source 2\". "
+    "Only cite a source for a proposition that the source itself states. If a source warns "
+    "against or criticizes a proposition, do not present that proposition as the rule. "
     "If the sources do not answer the question, say that they do not. "
     "Do not use outside knowledge and do not invent cases or citations."
 )
