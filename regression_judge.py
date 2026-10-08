@@ -1,23 +1,8 @@
+from judge import judge
 import json
-import re
-from judge import client, JUDGE_MODEL
 
 with open("data/chunks.json", encoding="utf-8") as f:
     by_id = {c["chunk_id"]: c["text"] for c in json.load(f)}
-
-JUDGE_V2 = (
-    "You check how a source passage relates to a statement. Respond in exactly two lines.\n"
-    "Line 1: QUOTE: <copy, word for word, the single sentence from the passage most relevant to the statement>\n"
-    "Line 2: LABEL: <one of the following>\n"
-    "  ASSERTS - the passage states the statement, with the same scope and conditions\n"
-    "  OVERGENERAL - the passage supports only a narrower version: it applies a rule to specific facts, "
-    "or it adds a condition that the statement leaves out\n"
-    "  CONTRADICTS - the passage states the opposite\n"
-    "  CONDITIONAL_OR_WARNING - the passage mentions the statement only inside an 'if', as a hypothetical, "
-    "or as something to avoid or criticize\n"
-    "  NOT_STATED - the passage does not address the statement\n"
-    "Read the quoted sentence carefully, including words like 'if', 'not', 'no', 'unless', and 'in this case'."
-)
 
 S, M, J = "9870175-37", "8623045-1", "9878807-9"
 cases = [
@@ -38,17 +23,7 @@ cases = [
 
 correct = 0
 for statement, chunk_id, should_pass in cases:
-    response = client.chat.completions.create(
-        model=JUDGE_MODEL,
-        messages=[
-            {"role": "system", "content": JUDGE_V2},
-            {"role": "user", "content": f"Passage:\n{by_id[chunk_id]}\n\nStatement: {statement}"},
-        ],
-        temperature=0,
-    )
-    text = response.choices[0].message.content or ""
-    match = re.search(r"LABEL:\s*([A-Z_]+)", text)
-    label = match.group(1) if match else "UNPARSED"
+    label, _ = judge(statement, by_id[chunk_id])
     ok = (label == "ASSERTS") == should_pass
     correct += ok
     print(f"{'OK  ' if ok else 'MISS'} | {label:<22} | should pass: {str(should_pass):<5} | {statement[:55]}")
