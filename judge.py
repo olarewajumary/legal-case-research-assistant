@@ -1,12 +1,5 @@
-import json
-import os
 import re
-from dotenv import load_dotenv
-from groq import Groq
-
-load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-JUDGE_MODEL = os.getenv("GROQ_JUDGE_MODEL")
+from llm import chat
 
 JUDGE = (
     "You check how a source passage relates to a statement. Respond in exactly two lines.\n"
@@ -25,30 +18,12 @@ JUDGE = (
 
 def judge(statement, passage):
     """Return (label, raw_text) for how the passage relates to the statement."""
-    response = client.chat.completions.create(
-        model=JUDGE_MODEL,
-        messages=[
+    text, _, _ = chat(
+        [
             {"role": "system", "content": JUDGE},
             {"role": "user", "content": f"Passage:\n{passage}\n\nStatement: {statement}"},
         ],
-        temperature=0,
+        role="judge",
     )
-    text = response.choices[0].message.content or ""
     match = re.search(r"LABEL:\s*([A-Z_]+)", text)
     return (match.group(1) if match else "UNPARSED"), text
-
-
-if __name__ == "__main__":
-    with open("data/chunks.json", encoding="utf-8") as f:
-        by_id = {c["chunk_id"]: c["text"] for c in json.load(f)}
-
-    print("judge model:", JUDGE_MODEL)
-    tests = [
-        ("Clearly established law is defined as the right to be free from unreasonable searches and seizures.",
-         "9870175-37"),
-        ("Whether a right is clearly established is a question of law that only a judge can decide.",
-         "9878807-9"),
-    ]
-    for statement, chunk_id in tests:
-        labels = [judge(statement, by_id[chunk_id])[0] for _ in range(5)]
-        print(f"\n{statement[:70]}\n  5 runs: {labels}")

@@ -2,12 +2,10 @@ import json
 import os
 import re
 from dotenv import load_dotenv
-from groq import Groq
 from gate import retrieve, chunks
+from llm import chat
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-MODEL = os.getenv("GROQ_MODEL")
 
 SYSTEM = (
     "You are a legal research assistant. Answer using ONLY the numbered sources provided. "
@@ -36,18 +34,15 @@ def get_claims(question):
         f"[{n}] {c['case_name']} ({c['court_id']}, filed {c['date_filed']})\n{c['text']}"
         for n, c in enumerate(sources, 1)
     )
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
+    raw, finish_reason, _ = chat(
+        [
             {"role": "system", "content": SYSTEM},
             {"role": "user", "content": f"Sources:\n\n{context}\n\nQuestion: {question}"},
         ],
-        temperature=0,
+        role="writer",
     )
-    choice = response.choices[0]
-    if choice.finish_reason != "stop":
-        print("WARNING: finish reason was", choice.finish_reason)
-    raw = choice.message.content or ""
+    if finish_reason != "stop":
+        print("WARNING: finish reason was", finish_reason)
 
     start, end = raw.find("{"), raw.rfind("}")
     try:
