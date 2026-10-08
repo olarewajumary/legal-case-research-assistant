@@ -3,7 +3,7 @@ from hybrid_search import hybrid_search, chunks
 
 ce = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-THRESHOLD = -5.0
+THRESHOLD = 0.0
 REFUSAL = "No relevant precedent found."
 
 
