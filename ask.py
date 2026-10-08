@@ -25,6 +25,7 @@ def verify_claims(sources, claims):
                 "court": src["court_id"],
                 "date_filed": src["date_filed"],
                 "url": src["url"],
+                "unpublished": src.get("unpublished", False),
             })
     return kept
 
@@ -44,7 +45,6 @@ def ask(question):
 if __name__ == "__main__":
     for q in [
         "What does clearly established law mean for qualified immunity?",
-        "Can a county be held responsible for a bad policy followed by its social workers?",
         "What is the recipe for chocolate chip cookies?",
     ]:
         out = ask(q)
@@ -54,4 +54,7 @@ if __name__ == "__main__":
         for c in out["claims"]:
             print(f"\n- {c['statement']}")
             print(f"  {c['case_name']} ({c['court']}, {c['date_filed']})")
+            if c["unpublished"]:
+                print("  WARNING: this opinion is marked by the court as unpublished and not precedent.")
             print(f"  \"{c['quote']}\"")
+            print(f"  {c['url']}")
