@@ -24,16 +24,22 @@ JUDGE = (
 )
 
 cases = [
-    ("Clearly established law is defined as the right to be free from unreasonable searches and seizures.",
+    ("Qualified immunity provides no protection to government officials.",
      "9870175-37", False),
-    ("A right is clearly established when its contours are sufficiently clear that a reasonable official would understand that his conduct violates it.",
+    ("Qualified immunity would provide no protection if clearly established law were defined as the right to be free from unreasonable searches and seizures.",
+     "9870175-37", True),
+    ("Courts should define clearly established law as the right to be free from unreasonable searches and seizures.",
+     "9870175-37", False),
+    ("When a violation could be made out on a favorable view of the parties' submissions, the next step is to ask whether the right was clearly established.",
      "8623045-1", True),
-    ("Whether a right is clearly established is a question of law that only a judge can decide.",
-     "9878807-9", True),
-    ("Qualified immunity protects government officials who are plainly incompetent.",
+    ("Qualified immunity protects officials who knowingly violate the law.",
      "8623045-1", False),
-    ("Whether a right is clearly established is a question that the jury must decide.",
+    ("Qualified immunity is meant to protect officials who make reasonable mistakes in the course of duty.",
+     "8623045-1", True),
+    ("Qualified immunity shields an official even if the plaintiff proves a constitutional violation of a clearly established right.",
      "9878807-9", False),
+    ("To overcome qualified immunity, a plaintiff must show both a constitutional violation and that the right was clearly established.",
+     "9878807-9", True),
 ]
 
 for model in MODELS:
