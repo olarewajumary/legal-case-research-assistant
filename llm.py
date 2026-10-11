@@ -18,8 +18,26 @@ def _groq_chat(messages, role):
     return choice.message.content or "", choice.finish_reason, models[role]
 
 
-PROVIDERS = {"groq": _groq_chat}
+def _ollama_chat(messages, role):
+    import requests
 
+    model = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
+    response = requests.post(
+        "http://localhost:11434/api/chat",
+        json={
+            "model": model,
+            "messages": messages,
+            "stream": False,
+            "options": {"temperature": 0},
+        },
+        timeout=300,
+    )
+    response.raise_for_status()
+    data = response.json()
+    text = data["message"]["content"] or ""
+    return text, data.get("done_reason"), model
+
+PROVIDERS = {"groq": _groq_chat, "ollama": _ollama_chat}
 
 def chat(messages, role="writer"):
     """Send messages to the configured provider. Returns (text, finish_reason, model_name)."""
