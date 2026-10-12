@@ -1,5 +1,6 @@
 from judge import judge
 import json
+import llm
 
 with open("data/chunks.json", encoding="utf-8") as f:
     by_id = {c["chunk_id"]: c["text"] for c in json.load(f)}
@@ -21,11 +22,21 @@ cases = [
     ("To overcome qualified immunity, a plaintiff must show both a constitutional violation and that the right was clearly established.", J, True),
 ]
 
+print(f"provider: {llm.PROVIDER}\n")
+
+print("warming up the model (the first call can take a couple of minutes)...")
+judge(cases[0][0], by_id[cases[0][1]])
+print("model is warm\n")
+
 correct = 0
-for statement, chunk_id, should_pass in cases:
-    label, _ = judge(statement, by_id[chunk_id])
+for i, (statement, chunk_id, should_pass) in enumerate(cases, 1):
+    print(f"running case {i} of {len(cases)}...", flush=True)
+    label, quote = judge(statement, by_id[chunk_id])
     ok = (label == "ASSERTS") == should_pass
     correct += ok
     print(f"{'OK  ' if ok else 'MISS'} | {label:<22} | should pass: {str(should_pass):<5} | {statement[:55]}")
-
+    
+    if not ok:
+        print(f"       judge copied: {quote}")
+        
 print(f"\ncorrect: {correct} of {len(cases)}")
