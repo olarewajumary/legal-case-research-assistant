@@ -1,6 +1,7 @@
 import re
 from answer_v2 import get_claims, squash
 from judge import judge
+import llm
 
 
 def verify_claims(sources, claims):
@@ -31,6 +32,7 @@ def verify_claims(sources, claims):
 
 
 def ask(question):
+    models = {"writer": llm.describe("writer"), "judge": llm.describe("judge")}
     sources, claims = get_claims(question)
     if sources is None:
         return {"status": "refused", "message": "No relevant precedent found.", "claims": []}
@@ -38,8 +40,8 @@ def ask(question):
     if not kept:
         return {"status": "unverified",
                 "message": "Passages were found, but no statement could be verified against them.",
-                "claims": []}
-    return {"status": "answered", "message": None, "claims": kept}
+                "claims": [], "models": models}
+    return {"status": "answered", "message": None, "claims": kept, "models": models}
 
 
 if __name__ == "__main__":
@@ -51,6 +53,8 @@ if __name__ == "__main__":
         print(f"\n=== {q}\nSTATUS: {out['status']}")
         if out["message"]:
             print(out["message"])
+        if "models" in out:
+            print(f"  writer: {out['models']['writer']} | judge: {out['models']['judge']}")    
         for c in out["claims"]:
             print(f"\n- {c['statement']}")
             print(f"  {c['case_name']} ({c['court']}, {c['date_filed']})")
