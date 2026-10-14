@@ -2,6 +2,7 @@ import json
 import os
 from text_extract import extract_paragraphs
 from chunker import chunk_paragraphs
+from clean_text import remove_page_markers
 
 RAW_DIR = os.path.join("data", "raw")
 OUT_PATH = os.path.join("data", "chunks.json")
@@ -13,6 +14,7 @@ for name in sorted(os.listdir(RAW_DIR)):
     with open(os.path.join(RAW_DIR, name), encoding="utf-8") as f:
         rec = json.load(f)
     paragraphs = extract_paragraphs(rec["text"])
+    paragraphs = [remove_page_markers(p) for p in paragraphs]
     full_text = " ".join(" ".join(paragraphs).lower().split())
     unpublished = any(m in full_text for m in MARKERS)
     if unpublished:
