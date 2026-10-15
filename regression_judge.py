@@ -20,6 +20,7 @@ cases = [
     ("Qualified immunity is meant to protect officials who make reasonable mistakes in the course of duty.", M, True),
     ("Qualified immunity shields an official even if the plaintiff proves a constitutional violation of a clearly established right.", J, False),
     ("To overcome qualified immunity, a plaintiff must show both a constitutional violation and that the right was clearly established.", J, True),
+    ("Punitive damages may be awarded in breach of contract cases involving fraud.", "7007101-180", False),
 ]
 
 print(f"provider: {llm.PROVIDER}\n")
@@ -40,3 +41,10 @@ for i, (statement, chunk_id, should_pass) in enumerate(cases, 1):
         print(f"       judge copied: {quote}")
         
 print(f"\ncorrect: {correct} of {len(cases)}")
+
+from ask import looks_like_citation_fragment
+
+print("citation fragment caught:", looks_like_citation_fragment(
+    "Co. v. Haslip, 499 U.S. 1, 6-7 , 111 S.Ct. 1032 , 113 L.Ed.2d 1 (1991) (affirming a punitive damage award);"))
+print("normal sentence kept:", not looks_like_citation_fragment(
+    "The contours of the right must be sufficiently clear that a reasonable official would understand that what he is doing violates that right."))

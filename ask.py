@@ -3,6 +3,14 @@ from answer_v2 import get_claims, squash
 from judge import judge
 import llm
 
+CITATION_MARKERS = ("U.S.", "S.Ct.", "F.2d", "F.3d", "L.Ed.")
+
+
+def looks_like_citation_fragment(quote):
+    """True if the quote is mostly a case citation, not a sentence of reasoning."""
+    hits = sum(quote.count(m) for m in CITATION_MARKERS)
+    return hits >= 2
+
 
 def verify_claims(sources, claims):
     kept = []
@@ -18,7 +26,8 @@ def verify_claims(sources, claims):
             continue
         match = re.search(r"QUOTE:\s*(.*?)\s*LABEL:", raw, re.DOTALL)
         quote = match.group(1).strip() if match else ""
-        if label == "ASSERTS" and quote and squash(quote) in squash(src["text"]):
+        if (label == "ASSERTS" and quote and squash(quote) in squash(src["text"])
+                and not looks_like_citation_fragment(quote)):
             kept.append({
                 "statement": c["statement"],
                 "quote": quote,
@@ -48,6 +57,8 @@ if __name__ == "__main__":
     for q in [
         "What does clearly established law mean for qualified immunity?",
         "What is the recipe for chocolate chip cookies?",
+        "What damages are available for breach of a contract?",
+        "What is the statute of limitations for medical malpractice?",
     ]:
         out = ask(q)
         print(f"\n=== {q}\nSTATUS: {out['status']}")
