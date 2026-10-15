@@ -42,9 +42,9 @@ PROVIDERS = {"groq": _groq_chat, "ollama": _ollama_chat}
 
 def describe(role):
     if PROVIDER == "ollama":
-            return f"ollama / {OLLAMA_MODEL}"
+        return f"ollama / {OLLAMA_MODEL}"
     names = {"writer": os.getenv("GROQ_MODEL"), "judge": os.getenv("GROQ_JUDGE_MODEL")}
-    return f"ollama / {OLLAMA_MODEL}"
+    return f"{PROVIDER} / {names[role]}"
 
 def chat(messages, role="writer"):
     """Send messages to the configured provider. Returns (text, finish_reason, model_name)."""
