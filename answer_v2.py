@@ -23,6 +23,9 @@ SYSTEM = (
 def squash(text):
     return re.sub(r"[^a-z0-9]", "", text.lower())
 
+OPENERS = "(\u201c\u2018\"'["
+CLOSERS = ".;,:)\u201d\u2019\"'?]"
+
 
 def find_in_source(quote, text):
     """Return the exact slice of text that matches quote, ignoring spacing and punctuation; None if absent."""
@@ -39,6 +42,10 @@ def find_in_source(quote, text):
         return None
     first = kept[start][1]
     last = kept[start + len(wanted) - 1][1]
+    while first > 0 and text[first - 1] in OPENERS:
+        first -= 1
+    while last + 1 < len(text) and text[last + 1] in CLOSERS:
+        last += 1
     return text[first:last + 1]
 
 
