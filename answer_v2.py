@@ -24,6 +24,24 @@ def squash(text):
     return re.sub(r"[^a-z0-9]", "", text.lower())
 
 
+def find_in_source(quote, text):
+    """Return the exact slice of text that matches quote, ignoring spacing and punctuation; None if absent."""
+    wanted = squash(quote)
+    if not wanted:
+        return None
+    kept = []  # (character, index in original text) for each letter or digit
+    for i, ch in enumerate(text):
+        if re.match(r"[A-Za-z0-9]", ch):
+            kept.append((ch.lower(), i))
+    flat = "".join(ch for ch, _ in kept)
+    start = flat.find(wanted)
+    if start == -1:
+        return None
+    first = kept[start][1]
+    last = kept[start + len(wanted) - 1][1]
+    return text[first:last + 1]
+
+
 def get_claims(question):
     result = retrieve(question)
     if not result["answerable"]:

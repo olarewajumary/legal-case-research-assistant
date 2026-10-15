@@ -1,5 +1,5 @@
 import re
-from answer_v2 import get_claims, squash
+from answer_v2 import get_claims, squash, find_in_source
 from judge import judge
 import llm
 
@@ -26,11 +26,12 @@ def verify_claims(sources, claims):
             continue
         match = re.search(r"QUOTE:\s*(.*?)\s*LABEL:", raw, re.DOTALL)
         quote = match.group(1).strip() if match else ""
-        if (label == "ASSERTS" and quote and squash(quote) in squash(src["text"])
+        shown = find_in_source(quote, src["text"]) if quote else None
+        if (label == "ASSERTS" and shown
                 and not looks_like_citation_fragment(quote)):
             kept.append({
                 "statement": c["statement"],
-                "quote": quote,
+                "quote": shown,
                 "case_name": src["case_name"],
                 "court": src["court_id"],
                 "date_filed": src["date_filed"],
