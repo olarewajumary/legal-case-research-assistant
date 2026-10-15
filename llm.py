@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 PROVIDER = os.getenv("LLM_PROVIDER", "groq")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
 
 
 def _groq_chat(messages, role):
@@ -21,11 +22,10 @@ def _groq_chat(messages, role):
 def _ollama_chat(messages, role):
     import requests
 
-    model = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
     response = requests.post(
         "http://localhost:11434/api/chat",
         json={
-            "model": model,
+            "model": OLLAMA_MODEL,
             "messages": messages,
             "stream": False,
             "options": {"temperature": 0},
@@ -35,15 +35,16 @@ def _ollama_chat(messages, role):
     response.raise_for_status()
     data = response.json()
     text = data["message"]["content"] or ""
-    return text, data.get("done_reason"), model
+    return text, data.get("done_reason"), OLLAMA_MODEL
 
 PROVIDERS = {"groq": _groq_chat, "ollama": _ollama_chat}
 
+
 def describe(role):
     if PROVIDER == "ollama":
-        return f"ollama / {os.getenv('OLLAMA_MODEL', 'llama3.2:3b')}"
+            return f"ollama / {OLLAMA_MODEL}"
     names = {"writer": os.getenv("GROQ_MODEL"), "judge": os.getenv("GROQ_JUDGE_MODEL")}
-    return f"{PROVIDER} / {names[role]}"
+    return f"ollama / {OLLAMA_MODEL}"
 
 def chat(messages, role="writer"):
     """Send messages to the configured provider. Returns (text, finish_reason, model_name)."""
