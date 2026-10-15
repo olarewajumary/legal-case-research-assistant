@@ -6,7 +6,7 @@ from clean_text import remove_page_markers
 
 RAW_DIR = os.path.join("data", "raw")
 OUT_PATH = os.path.join("data", "chunks.json")
-MARKERS = ["not appropriate for publication", "not precedent", "SUMMARY ORDER"]
+MARKERS = ["not appropriate for publication", "not precedent", "summary order"]
 
 all_chunks = []
 flagged = []
