@@ -21,6 +21,7 @@ cases = [
     ("Qualified immunity shields an official even if the plaintiff proves a constitutional violation of a clearly established right.", J, False),
     ("To overcome qualified immunity, a plaintiff must show both a constitutional violation and that the right was clearly established.", J, True),
     ("Punitive damages may be awarded in breach of contract cases involving fraud.", "7007101-180", False),
+    ("Punitive damages are traditionally unavailable for breach of contract.", "7007101-22", False),
 ]
 
 print(f"provider: {llm.PROVIDER}\n")
