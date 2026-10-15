@@ -1,8 +1,10 @@
 import json
 import os
+import argparse
 from cl_client import cl_get
 
 RAW_DIR = os.path.join("data", "raw")
+DUPES_DIR = os.path.join("data", "raw_dupes")
 os.makedirs(RAW_DIR, exist_ok=True)
 
 TEXT_FIELDS = ["html_with_citations", "xml_harvard", "plain_text"]
@@ -18,9 +20,15 @@ def choose_opinion(hit):
     return None
 
 
-resp = cl_get("search/", {"q": "qualified immunity", "type": "o", "court": "ca9"})
+parser = argparse.ArgumentParser(description="Download opinions from CourtListener.")
+parser.add_argument("--court", required=True, help="CourtListener court code, e.g. ca9 or ca2")
+parser.add_argument("--limit", type=int, default=10, help="how many search results to process")
+parser.add_argument("--query", default="qualified immunity", help="search term")
+args = parser.parse_args()
+
+resp = cl_get("search/", {"q": args.query, "type": "o", "court": args.court})
 print("search status:", resp.status_code)
-hits = resp.json()["results"][:10]
+hits = resp.json()["results"][: args.limit]
 
 for hit in hits:
     chosen = choose_opinion(hit)
@@ -29,9 +37,10 @@ for hit in hits:
         continue
 
     opinion_id = chosen["id"]
-    path = os.path.join(RAW_DIR, f"{opinion_id}.json")
-    if os.path.exists(path):
-        print(opinion_id, "already saved, skipping")
+    filename = f"{opinion_id}.json"
+    path = os.path.join(RAW_DIR, filename)
+    if os.path.exists(path) or os.path.exists(os.path.join(DUPES_DIR, filename)):
+        print(opinion_id, "already saved or set aside as a duplicate, skipping")
         continue
 
     r = cl_get(f"opinions/{opinion_id}/")
