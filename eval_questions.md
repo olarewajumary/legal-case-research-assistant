@@ -12,7 +12,11 @@
    Expected answer: The four Nken factors: likelihood of success on the merits, irreparable injury absent a stay, injury to other parties, and the public interest.
    Expected warning: no
 
+   Result (2026-10-16, Groq): HIT. Four Nken factors quoted, expected case, no warning.
+
 3. Question: Can a city punish a street preacher under a noise ordinance without violating the First Amendment?
    Expected case: Costello v. City of Burlington (ca2, 2011), opinion 9440528
    Expected answer: Yes, if the ordinance is content neutral, narrowly tailored to a significant government interest, and leaves alternative channels open. The court held the Burlington ordinance constitutional as applied.
    Expected warning: no (published opinion)
+
+   Result (2026-10-16, Groq): PARTIAL. Right case, but the quote recaps the district court's earlier judgment and the claim drops the conditions (content neutral, narrowly tailored, alternative channels).
