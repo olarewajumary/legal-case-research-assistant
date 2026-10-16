@@ -4,3 +4,5 @@
    Expected case: Amorosano-Lepore v. Generoso (ca2, 2009), opinion 8470114
    Expected answer: No. The court lacks jurisdiction when the denial turns on disputed facts.
    Expected warning: yes (summary order)
+
+   Result (2026-10-16, Groq): HIT. Expected case returned first with the warning. Second claim (Morales) was off-topic.
