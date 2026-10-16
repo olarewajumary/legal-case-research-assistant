@@ -17,6 +17,7 @@ def verify_claims(sources, claims):
     for c in claims:
         n = c.get("source")
         if not (isinstance(n, int) and 1 <= n <= len(sources)):
+            print("   dropped: bad source number", repr(n))
             continue
         src = sources[n - 1]
         try:
@@ -27,8 +28,13 @@ def verify_claims(sources, claims):
         match = re.search(r"QUOTE:\s*(.*?)\s*LABEL:", raw, re.DOTALL)
         quote = match.group(1).strip() if match else ""
         shown = find_in_source(quote, src["text"]) if quote else None
-        if (label == "ASSERTS" and shown
-                and not looks_like_citation_fragment(quote)):
+        if label != "ASSERTS":
+            print("   dropped: judge label", label)
+        elif not shown:
+            print("   dropped: quote not found in source")
+        elif looks_like_citation_fragment(quote):
+            print("   dropped: quote is a citation fragment")
+        else:
             kept.append({
                 "statement": c["statement"],
                 "quote": shown,
