@@ -34,3 +34,18 @@
    Expected: refused (no property-law opinions in the collection)
 
    Result (2026-10-16): all four refused correctly. Run separately after fixing a missing-comma bug that had merged them into one question.
+
+8. Question: Will an appeals court consider an argument that was raised for the first time on appeal?
+   Expected case: Stabley v. Bank of America (ca9, 2017), opinion 8683933
+   Expected answer: No. The court does not consider arguments raised for the first time on appeal or not specifically argued in the opening brief.
+   Expected warning: yes (unpublished)
+
+9. Question: When can qualified immunity support dismissing a complaint before discovery?
+   Expected case: Hyman v. Abrams (ca2, 2015), opinion 8678903
+   Expected answer: Only if the facts supporting the defense appear on the face of the complaint. Here the complaint alleged an unprovoked assault, so dismissal was denied.
+   Expected warning: yes (summary order)
+
+10. Question: Is a teacher entitled to qualified immunity for putting a student in a seclusion room as part of a behavior plan?
+   Expected case: Payne ex rel. D.P. v. Peninsula School District (ca9, 2015), opinion 8678545
+   Expected answer: Yes on these facts, because it would not have been clear to a reasonable official that the safe room placement was an unconstitutional seizure. Fact-specific, not a general rule.
+   Expected warning: yes (unpublished)      
