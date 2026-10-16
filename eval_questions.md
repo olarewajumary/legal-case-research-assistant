@@ -55,3 +55,8 @@
    Expected warning: yes (unpublished) 
 
    Result (2026-10-16, Groq): MISS (writer JSON malformed: ended with ]]} so the claim was discarded; right case and a correct claim were produced). Re-run pending.
+
+11. Question: Does an insured's failure to remedy a harm that occurred before the policy period count as a new "occurrence" during the policy period under California law?
+   Expected case: City of San Buenaventura v. Insurance Co. of Pennsylvania (ca9, 2013), opinion 935472
+   Expected answer: No. Failing to fix an earlier harm is not a continuing, subsequent occurrence. The continuing-damage rule from Montrose Chemical covers things like pollutants that keep leaching during the policy period, not a discrete earlier act whose consequences are still unpaid.
+   Expected warning: no (published opinion)   
