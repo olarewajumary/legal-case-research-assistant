@@ -32,3 +32,5 @@
 
 7. Question: What are the elements of adverse possession?
    Expected: refused (no property-law opinions in the collection)
+
+   Result (2026-10-16): all four refused correctly. Run separately after fixing a missing-comma bug that had merged them into one question.
