@@ -20,3 +20,15 @@
    Expected warning: no (published opinion)
 
    Result (2026-10-16, Groq): PARTIAL. Right case, but the quote recaps the district court's earlier judgment and the claim drops the conditions (content neutral, narrowly tailored, alternative channels).
+
+4. Question: When can a landlord evict a tenant for unpaid rent?
+   Expected: refused (no landlord-tenant opinions in the collection)
+
+5. Question: What is the statute of limitations for medical malpractice?
+   Expected: refused (no medical malpractice opinions in the collection)
+
+6. Question: Does the Fifth Amendment protect a suspect who stays silent during questioning?
+   Expected: refused (no self-incrimination opinions in the collection)
+
+7. Question: What are the elements of adverse possession?
+   Expected: refused (no property-law opinions in the collection)
