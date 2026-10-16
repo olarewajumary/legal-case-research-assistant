@@ -49,7 +49,19 @@ def find_in_source(quote, text):
     return text[first:last + 1]
 
 
+def parse_claims(raw):
+    """Return the list of claims from the writer's reply, or None if the reply is broken."""
+    start, end = raw.find("{"), raw.rfind("}")
+    if start == -1 or end == -1:
+        return None
+    try:
+        return json.loads(raw[start:end + 1])["claims"]
+    except (ValueError, KeyError, TypeError):
+        return None
+
+
 def get_claims(question):
+    """Retrieve sources, ask the writer for claims, and return (sources, claims)."""
     result = retrieve(question)
     if not result["answerable"]:
         return None, []
@@ -59,23 +71,24 @@ def get_claims(question):
         f"[{n}] {c['case_name']} ({c['court_id']}, filed {c['date_filed']})\n{c['text']}"
         for n, c in enumerate(sources, 1)
     )
-    raw, finish_reason, _ = chat(
-        [
-            {"role": "system", "content": SYSTEM},
-            {"role": "user", "content": f"Sources:\n\n{context}\n\nQuestion: {question}"},
-        ],
-        role="writer",
-    )
+    messages = [
+        {"role": "system", "content": SYSTEM},
+        {"role": "user", "content": f"Sources:\n\n{context}\n\nQuestion: {question}"},
+    ]
+    raw, finish_reason, _ = chat(messages, role="writer")
     if finish_reason != "stop":
         print("WARNING: finish reason was", finish_reason)
 
-    start, end = raw.find("{"), raw.rfind("}")
-    try:
-        claims = json.loads(raw[start:end + 1])["claims"]
-    except Exception as e:
-        print("COULD NOT PARSE JSON:", type(e).__name__)
+    claims = parse_claims(raw)
+    if claims is None:
+        print("COULD NOT PARSE JSON, retrying once")
         print(raw[:500])
-        return sources, []
+        raw, finish_reason, _ = chat(messages, role="writer")
+        claims = parse_claims(raw)
+        if claims is None:
+            print("RETRY ALSO FAILED")
+            print(raw[:500])
+            return sources, []
     return sources, claims
 
 
