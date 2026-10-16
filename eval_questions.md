@@ -40,12 +40,18 @@
    Expected answer: No. The court does not consider arguments raised for the first time on appeal or not specifically argued in the opening brief.
    Expected warning: yes (unpublished)
 
+   Result (2026-10-16, Groq): HIT.   
+
 9. Question: When can qualified immunity support dismissing a complaint before discovery?
    Expected case: Hyman v. Abrams (ca2, 2015), opinion 8678903
    Expected answer: Only if the facts supporting the defense appear on the face of the complaint. Here the complaint alleged an unprovoked assault, so dismissal was denied.
    Expected warning: yes (summary order)
 
+   Result (2026-10-16, Groq): HIT, UNSTABLE. 3 of 3 later runs answered correctly with the warning. Two earlier runs were unverified (one malformed writer JSON, one unexplained). Writer variation is the likely cause, unconfirmed.
+
 10. Question: Is a teacher entitled to qualified immunity for putting a student in a seclusion room as part of a behavior plan?
    Expected case: Payne ex rel. D.P. v. Peninsula School District (ca9, 2015), opinion 8678545
    Expected answer: Yes on these facts, because it would not have been clear to a reasonable official that the safe room placement was an unconstitutional seizure. Fact-specific, not a general rule.
-   Expected warning: yes (unpublished)      
+   Expected warning: yes (unpublished) 
+
+   Result (2026-10-16, Groq): MISS (writer JSON malformed: ended with ]]} so the claim was discarded; right case and a correct claim were produced). Re-run pending.
