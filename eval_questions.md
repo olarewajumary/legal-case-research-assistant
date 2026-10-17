@@ -63,3 +63,5 @@
    Expected warning: no (published opinion)   
 
    Result (2026-10-17, Groq): PARTIAL, UNSTABLE. Exact wording, 3 runs: 2 answered, 1 unverified (dropped: judge label NOT_STATED). Answered runs returned the expected case, no warning. The quote was the court rejecting the City's argument ("would imply an absurd result"), not a statement of the rule, and the claims dropped the Montrose distinction (continuing damage vs a discrete earlier act). An earlier run through ask.py with the quote marks lost to PowerShell was also unverified, with no drop line printed; that cause is unexplained.
+
+Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answerable questions returned the expected opinion with the expected warning flag (Q1, Q2, Q3, Q8, Q9, Q10). Q11 unverified (dropped: judge label NOT_STATED). 4 of 4 refusals correct. The script scores case and warning only; it cannot tell HIT from PARTIAL (Q3 and Q11 are human-scored partials). One run each, so no rates.   
