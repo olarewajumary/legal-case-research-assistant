@@ -76,5 +76,11 @@
     "question": "Can town officials who wrongly claimed regulatory jurisdiction over a landowner's property still be denied qualified immunity?",
     "expected_opinion_id": "8675784",
     "expected_warning": true
+  },
+  {
+    "id": 14,
+    "question": "If a bank contract allows a fee for a \"balance inquiry\" but never defines the term, does the customer have to actually request their balance?",
+    "expected_opinion_id": "10486884",
+    "expected_warning": false
   }
 ]

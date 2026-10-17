@@ -79,3 +79,8 @@ Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answera
    Expected warning: yes (summary order)
 
    Result (2026-10-17, Groq): HIT, UNSTABLE. eval_run.py, 3 runs: 2 case match, 1 unverified (dropped: judge label OVERGENERAL, claim not inspected). One ask.py run answered with the expected case and warning; the claim said officials can be denied qualified immunity when other conduct is shown, quoting the court's sentence on other conduct. It dropped the half about immunity possibly applying if the jurisdiction error were the only basis. Scripted runs 1 and 2 were scored on case and warning only, so their claims were not read. Small sample, no rates.
+
+14. Question: If a bank contract allows a fee for a "balance inquiry" but never defines the term, does the customer have to actually request their balance?
+   Expected case: Schertzer v. Bank of America (ca9, 2024), opinion 10486884
+   Expected answer: Yes. The court held that the ordinary and popular meaning of "balance inquiry" requires an objectively clear customer request for balance information. An electronic request the ATM sends to the bank on its own does not count.
+   Expected warning: no (published opinion)   
