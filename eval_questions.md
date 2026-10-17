@@ -77,3 +77,5 @@ Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answera
    Expected case: Harding v. Borner (ca2, 2014), opinion 8675784
    Expected answer: Yes, on these facts. The court affirmed that the wetlands commission lacked jurisdiction over the property and said the improper exercise of jurisdiction alone might have supported qualified immunity because the right was not clearly established. But the officials' other conduct toward the property was enough to defeat immunity and support the jury verdict.
    Expected warning: yes (summary order)
+
+   Result (2026-10-17, Groq): HIT, UNSTABLE. eval_run.py, 3 runs: 2 case match, 1 unverified (dropped: judge label OVERGENERAL, claim not inspected). One ask.py run answered with the expected case and warning; the claim said officials can be denied qualified immunity when other conduct is shown, quoting the court's sentence on other conduct. It dropped the half about immunity possibly applying if the jurisdiction error were the only basis. Scripted runs 1 and 2 were scored on case and warning only, so their claims were not read. Small sample, no rates.
