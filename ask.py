@@ -1,6 +1,6 @@
 import re
 import sys
-from answer_v2 import get_claims, squash, find_in_source
+from answer_v2 import get_claims, find_in_source
 from judge import judge
 import llm
 
