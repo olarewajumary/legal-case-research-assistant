@@ -1,4 +1,5 @@
 import re
+import sys
 from answer_v2 import get_claims, squash, find_in_source
 from judge import judge
 import llm
@@ -60,23 +61,25 @@ def ask(question):
     return {"status": "answered", "message": None, "claims": kept, "models": models}
 
 
+def print_result(question, out):
+    """Print one ask() result in a readable form."""
+    print(f"\n=== {question}\nSTATUS: {out['status']}")
+    if out["message"]:
+        print(out["message"])
+    if "models" in out:
+        print(f"  writer: {out['models']['writer']} | judge: {out['models']['judge']}")
+    for c in out["claims"]:
+        print(f"\n- {c['statement']}")
+        print(f"  {c['case_name']} ({c['court']}, {c['date_filed']})")
+        if c["unpublished"]:
+            print("  WARNING: this opinion is marked by the court as unpublished and not precedent.")
+        print(f"  \"{c['quote']}\"")
+        print(f"  {c['url']}")
+
+
 if __name__ == "__main__":
-    for q in [
-        "What does clearly established law mean for qualified immunity?",
-        "What is the recipe for chocolate chip cookies?",
-        "What damages are available for breach of a contract?",
-        "What is the statute of limitations for medical malpractice?",
-    ]:
-        out = ask(q)
-        print(f"\n=== {q}\nSTATUS: {out['status']}")
-        if out["message"]:
-            print(out["message"])
-        if "models" in out:
-            print(f"  writer: {out['models']['writer']} | judge: {out['models']['judge']}")    
-        for c in out["claims"]:
-            print(f"\n- {c['statement']}")
-            print(f"  {c['case_name']} ({c['court']}, {c['date_filed']})")
-            if c["unpublished"]:
-                print("  WARNING: this opinion is marked by the court as unpublished and not precedent.")
-            print(f"  \"{c['quote']}\"")
-            print(f"  {c['url']}")
+    questions = sys.argv[1:]
+    if not questions:
+        print("Usage: python ask.py \"question one\" \"question two\"")
+    for q in questions:
+        print_result(q, ask(q))
