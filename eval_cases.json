@@ -70,5 +70,11 @@
     "question": "Can prison officials get qualified immunity for adding post-release supervision conditions that the sentencing court never ordered?",
     "expected_opinion_id": "8451495",
     "expected_warning": true
+  },
+  {
+    "id": 13,
+    "question": "Can town officials who wrongly claimed regulatory jurisdiction over a landowner's property still be denied qualified immunity?",
+    "expected_opinion_id": "8675784",
+    "expected_warning": true
   }
 ]

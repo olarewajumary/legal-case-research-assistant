@@ -72,3 +72,8 @@ Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answera
    Expected warning: yes (summary order)
 
    Result (2026-10-17, Groq): MISS, fails safe. 5 runs total (1 via ask.py, 1 debug, 3 via eval_run.py), all unverified with dropped: judge label NOT_STATED. Retrieval found the expected opinion and the writer produced a correct claim, but the judge rejected it every time. Likely cause (unconfirmed, judge output not inspected): the only supporting quote reports the court's ruling in Vincent v. Yelich, which is not in the corpus. Not fixed; tuning the judge toward a question I wrote would undercut the evaluation.
+
+13. Question: Can town officials who wrongly claimed regulatory jurisdiction over a landowner's property still be denied qualified immunity?
+   Expected case: Harding v. Borner (ca2, 2014), opinion 8675784
+   Expected answer: Yes, on these facts. The court affirmed that the wetlands commission lacked jurisdiction over the property and said the improper exercise of jurisdiction alone might have supported qualified immunity because the right was not clearly established. But the officials' other conduct toward the property was enough to defeat immunity and support the jury verdict.
+   Expected warning: yes (summary order)
