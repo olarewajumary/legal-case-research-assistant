@@ -64,5 +64,11 @@
     "question": "Does an insured's failure to remedy a harm that occurred before the policy period count as a new \"occurrence\" during the policy period under California law?",
     "expected_opinion_id": "935472",
     "expected_warning": false
+  },
+  {
+    "id": 12,
+    "question": "Can prison officials get qualified immunity for adding post-release supervision conditions that the sentencing court never ordered?",
+    "expected_opinion_id": "8451495",
+    "expected_warning": true
   }
 ]

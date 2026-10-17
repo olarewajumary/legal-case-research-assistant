@@ -64,4 +64,9 @@
 
    Result (2026-10-17, Groq): PARTIAL, UNSTABLE. Exact wording, 3 runs: 2 answered, 1 unverified (dropped: judge label NOT_STATED). Answered runs returned the expected case, no warning. The quote was the court rejecting the City's argument ("would imply an absurd result"), not a statement of the rule, and the claims dropped the Montrose distinction (continuing damage vs a discrete earlier act). An earlier run through ask.py with the quote marks lost to PowerShell was also unverified, with no drop line printed; that cause is unexplained.
 
-Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answerable questions returned the expected opinion with the expected warning flag (Q1, Q2, Q3, Q8, Q9, Q10). Q11 unverified (dropped: judge label NOT_STATED). 4 of 4 refusals correct. The script scores case and warning only; it cannot tell HIT from PARTIAL (Q3 and Q11 are human-scored partials). One run each, so no rates.   
+Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answerable questions returned the expected opinion with the expected warning flag (Q1, Q2, Q3, Q8, Q9, Q10). Q11 unverified (dropped: judge label NOT_STATED). 4 of 4 refusals correct. The script scores case and warning only; it cannot tell HIT from PARTIAL (Q3 and Q11 are human-scored partials). One run each, so no rates.
+
+12. Question: Can prison officials get qualified immunity for adding post-release supervision conditions that the sentencing court never ordered?
+   Expected case: Betances v. Fischer (ca2, 2013), opinion 8451495
+   Expected answer: No, not at the motion-to-dismiss stage. The Second Circuit affirmed denial of qualified immunity because Earley v. Murray clearly established that administratively imposing post-release supervision terms the court did not impose is unconstitutional. The order borrows its fuller reasoning from a companion case (Vincent v. Yelich) that is not in the corpus.
+   Expected warning: yes (summary order)
