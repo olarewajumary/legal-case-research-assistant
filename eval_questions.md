@@ -54,7 +54,8 @@
    Expected answer: Yes on these facts, because it would not have been clear to a reasonable official that the safe room placement was an unconstitutional seizure. Fact-specific, not a general rule.
    Expected warning: yes (unpublished) 
 
-   Result (2026-10-16, Groq): MISS (writer JSON malformed: ended with ]]} so the claim was discarded; right case and a correct claim were produced). Re-run pending.
+   Result (2026-10-16, Groq): MISS (writer JSON malformed: ended with ]]} so the claim was discarded; right case and a correct claim were produced).
+   Result (2026-10-17, Groq, re-run): HIT. Right case, unpublished warning shown, quote matches the expected holding. Retry path did not fire in this run. HIT, UNSTABLE (1 miss, 1 hit).
 
 11. Question: Does an insured's failure to remedy a harm that occurred before the policy period count as a new "occurrence" during the policy period under California law?
    Expected case: City of San Buenaventura v. Insurance Co. of Pennsylvania (ca9, 2013), opinion 935472
