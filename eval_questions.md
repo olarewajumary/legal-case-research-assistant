@@ -91,3 +91,5 @@ Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answera
    Expected case: County of San Bernardino v. Insurance Company of the State of Pennsylvania (ca9, 2026), opinion 11314602
    Expected answer: In favor of the insured. After finding the policies genuinely ambiguous and exhausting other interpretive tools, the court applied the California canon that doubts and ambiguities in insurance policy language are resolved in favor of the insured, and concluded the policies do not specify an aggregate limit for property damage.
    Expected warning: no (published opinion)   
+   
+   Result (2026-10-17, Groq): HIT, UNSTABLE. eval_run.py, 3 runs: 2 case match (case and warning flag only; claims not read), 1 unverified (dropped: judge label NOT_STATED). One claim read under the exact wording (via scratch\read_case.py): expected case, no warning; the claim said ambiguity is resolved in favor of the insured, quoting the court's statement of the canon, which the court goes on to apply. Met the hit bar written before the run. Garamendi reasoning was not read when writing the question. Small sample, no rates.
