@@ -82,5 +82,11 @@
     "question": "If a bank contract allows a fee for a \"balance inquiry\" but never defines the term, does the customer have to actually request their balance?",
     "expected_opinion_id": "10486884",
     "expected_warning": false
+  },
+  {
+    "id": 15,
+    "question": "If an insurance policy is genuinely ambiguous about whether an aggregate limit covers property damage, how is the ambiguity resolved?",
+    "expected_opinion_id": "11314602",
+    "expected_warning": false
   }
 ]
