@@ -70,3 +70,5 @@ Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answera
    Expected case: Betances v. Fischer (ca2, 2013), opinion 8451495
    Expected answer: No, not at the motion-to-dismiss stage. The Second Circuit affirmed denial of qualified immunity because Earley v. Murray clearly established that administratively imposing post-release supervision terms the court did not impose is unconstitutional. The order borrows its fuller reasoning from a companion case (Vincent v. Yelich) that is not in the corpus.
    Expected warning: yes (summary order)
+
+   Result (2026-10-17, Groq): MISS, fails safe. 5 runs total (1 via ask.py, 1 debug, 3 via eval_run.py), all unverified with dropped: judge label NOT_STATED. Retrieval found the expected opinion and the writer produced a correct claim, but the judge rejected it every time. Likely cause (unconfirmed, judge output not inspected): the only supporting quote reports the court's ruling in Vincent v. Yelich, which is not in the corpus. Not fixed; tuning the judge toward a question I wrote would undercut the evaluation.
