@@ -44,10 +44,17 @@ def load_cases():
         return json.load(f)
 
 
-def run_all(runs):
-    """Run every case `runs` times; print one line per run and a tally."""
+def select_cases(cases, ids):
+    """Return the cases whose id is in ids, in file order; all cases if ids is empty."""
+    if not ids:
+        return cases
+    return [case for case in cases if case["id"] in ids]
+
+
+def run_all(runs, ids):
+    """Run the selected cases `runs` times; print one line per run and a tally."""
     tally = Counter()
-    for case in load_cases():
+    for case in select_cases(load_cases(), ids):
         for i in range(runs):
             label = score_case(case, ask(case["question"]))
             tally[label] += 1
@@ -56,6 +63,7 @@ def run_all(runs):
     for label, count in sorted(tally.items()):
         print(f"  {label}: {count}")
 
-
 if __name__ == "__main__":
-    run_all(int(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_RUNS)
+    args = [int(arg) for arg in sys.argv[1:]]
+    run_count = args[0] if args else DEFAULT_RUNS
+    run_all(run_count, args[1:])
