@@ -1,12 +1,16 @@
-from judge import judge
 import json
+
+from ask import looks_like_citation_fragment
+from judge import judge
 import llm
 
-with open("data/chunks.json", encoding="utf-8") as f:
-    by_id = {c["chunk_id"]: c["text"] for c in json.load(f)}
+CHUNKS_FILE = "data/chunks.json"
+SCRATCH_CHUNK = "9870175-37"
+MAIN_CHUNK = "8623045-1"
+JUDGE_CHUNK = "9878807-9"
+S, M, J = SCRATCH_CHUNK, MAIN_CHUNK, JUDGE_CHUNK
 
-S, M, J = "9870175-37", "8623045-1", "9878807-9"
-cases = [
+CASES = [
     ("Clearly established law is defined as the right to be free from unreasonable searches and seizures.", S, False),
     ("A right is clearly established when its contours are sufficiently clear that a reasonable official would understand that his conduct violates it.", M, True),
     ("Whether a right is clearly established is a question of law that only a judge can decide.", J, True),
@@ -24,28 +28,34 @@ cases = [
     ("Punitive damages are traditionally unavailable for breach of contract.", "7007101-22", False),
 ]
 
-print(f"provider: {llm.PROVIDER}\n")
+def load_chunk_texts():
+    """Map chunk_id to chunk text from CHUNKS_FILE."""
+    with open(CHUNKS_FILE, encoding="utf-8") as f:
+        return {c["chunk_id"]: c["text"] for c in json.load(f)}
 
-print("warming up the model (the first call can take a couple of minutes)...")
-judge(cases[0][0], by_id[cases[0][1]])
-print("model is warm\n")
 
-correct = 0
-for i, (statement, chunk_id, should_pass) in enumerate(cases, 1):
-    print(f"running case {i} of {len(cases)}...", flush=True)
-    label, quote = judge(statement, by_id[chunk_id])
-    ok = (label == "ASSERTS") == should_pass
-    correct += ok
-    print(f"{'OK  ' if ok else 'MISS'} | {label:<22} | should pass: {str(should_pass):<5} | {statement[:55]}")
-    
-    if not ok:
-        print(f"       judge copied: {quote}")
-        
-print(f"\ncorrect: {correct} of {len(cases)}")
+def run_regression():
+    """Run every case through the judge; print each result and return the number correct."""
+    by_id = load_chunk_texts()
+    print(f"provider: {llm.PROVIDER}\n")
 
-from ask import looks_like_citation_fragment
+    print("warming up the model (the first call can take a couple of minutes)...")
+    judge(CASES[0][0], by_id[CASES[0][1]])
+    print("model is warm\n")
 
-print("citation fragment caught:", looks_like_citation_fragment(
-    "Co. v. Haslip, 499 U.S. 1, 6-7 , 111 S.Ct. 1032 , 113 L.Ed.2d 1 (1991) (affirming a punitive damage award);"))
-print("normal sentence kept:", not looks_like_citation_fragment(
-    "The contours of the right must be sufficiently clear that a reasonable official would understand that what he is doing violates that right."))
+    correct = 0
+    for i, (statement, chunk_id, should_pass) in enumerate(CASES, 1):
+        print(f"running case {i} of {len(CASES)}...", flush=True)
+        label, quote = judge(statement, by_id[chunk_id])
+        ok = (label == "ASSERTS") == should_pass
+        correct += ok
+        print(f"{'OK  ' if ok else 'MISS'} | {label:<22} | should pass: {str(should_pass):<5} | {statement[:55]}")
+        if not ok:
+            print(f"       judge copied: {quote}")
+
+    print(f"\ncorrect: {correct} of {len(CASES)}")
+    return correct
+
+
+if __name__ == "__main__":
+    run_regression()
