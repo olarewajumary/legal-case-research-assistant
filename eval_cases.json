@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "question": "Can a government employer appeal a denial of qualified immunity before trial if the facts are disputed?",
+    "expected_opinion_id": "8470114",
+    "expected_warning": true
+  },
+  {
+    "id": 2,
+    "question": "What factors does a court weigh before pausing a preliminary injunction while an appeal is pending?",
+    "expected_opinion_id": "11214412",
+    "expected_warning": false
+  },
+  {
+    "id": 3,
+    "question": "Can a city punish a street preacher under a noise ordinance without violating the First Amendment?",
+    "expected_opinion_id": "9440528",
+    "expected_warning": false
+  },
+  {
+    "id": 4,
+    "question": "When can a landlord evict a tenant for unpaid rent?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 5,
+    "question": "What is the statute of limitations for medical malpractice?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 6,
+    "question": "Does the Fifth Amendment protect a suspect who stays silent during questioning?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 7,
+    "question": "What are the elements of adverse possession?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 8,
+    "question": "Will an appeals court consider an argument that was raised for the first time on appeal?",
+    "expected_opinion_id": "8683933",
+    "expected_warning": true
+  },
+  {
+    "id": 9,
+    "question": "When can qualified immunity support dismissing a complaint before discovery?",
+    "expected_opinion_id": "8678903",
+    "expected_warning": true
+  },
+  {
+    "id": 10,
+    "question": "Is a teacher entitled to qualified immunity for putting a student in a seclusion room as part of a behavior plan?",
+    "expected_opinion_id": "8678545",
+    "expected_warning": true
+  },
+  {
+    "id": 11,
+    "question": "Does an insured's failure to remedy a harm that occurred before the policy period count as a new \"occurrence\" during the policy period under California law?",
+    "expected_opinion_id": "935472",
+    "expected_warning": false
+  }
+]
