@@ -61,3 +61,5 @@
    Expected case: City of San Buenaventura v. Insurance Co. of Pennsylvania (ca9, 2013), opinion 935472
    Expected answer: No. Failing to fix an earlier harm is not a continuing, subsequent occurrence. The continuing-damage rule from Montrose Chemical covers things like pollutants that keep leaching during the policy period, not a discrete earlier act whose consequences are still unpaid.
    Expected warning: no (published opinion)   
+
+   Result (2026-10-17, Groq): PARTIAL, UNSTABLE. Exact wording, 3 runs: 2 answered, 1 unverified (dropped: judge label NOT_STATED). Answered runs returned the expected case, no warning. The quote was the court rejecting the City's argument ("would imply an absurd result"), not a statement of the rule, and the claims dropped the Montrose distinction (continuing damage vs a discrete earlier act). An earlier run through ask.py with the quote marks lost to PowerShell was also unverified, with no drop line printed; that cause is unexplained.
