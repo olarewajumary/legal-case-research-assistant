@@ -4,6 +4,11 @@ from answer_v2 import get_claims, find_in_source
 from judge import judge
 import llm
 
+UNPUBLISHED_WARNING = (
+    "WARNING: this opinion is unpublished or a summary order "
+    "and is not binding precedent."
+)
+
 CITATION_MARKERS = ("U.S.", "S.Ct.", "F.2d", "F.3d", "L.Ed.")
 
 
@@ -73,7 +78,7 @@ def print_result(question, out):
         print(f"\n- {c['statement']}")
         print(f"  {c['case_name']} ({c['court']}, {c['date_filed']})")
         if c["unpublished"]:
-            print("  WARNING: this opinion is marked by the court as unpublished and not precedent.")
+            print(f"  {UNPUBLISHED_WARNING}")
         print(f"  \"{c['quote']}\"")
         print(f"  {c['url']}")
 
