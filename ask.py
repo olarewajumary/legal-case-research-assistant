@@ -43,6 +43,7 @@ def verify_claims(sources, claims):
                 "court": src["court_id"],
                 "date_filed": src["date_filed"],
                 "url": src["url"],
+                "opinion_id": str(src["opinion_id"]),
                 "unpublished": src.get("unpublished", False),
             })
     return kept
