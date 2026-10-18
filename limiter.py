@@ -1,5 +1,7 @@
 SESSION_LIMIT = 5
 WINDOW_SECONDS = 600
+DAILY_LIMIT = 40
+DAY_SECONDS = 86400
 
 
 def allow_request(history, now, limit, window):
