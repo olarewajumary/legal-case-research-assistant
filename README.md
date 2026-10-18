@@ -2,6 +2,10 @@
 
 Ask a legal question, get back a short answer built only from real U.S. court opinions, with the court, the citation, a link, and a word-for-word quote from the opinion. If the collection has nothing relevant, it says "No relevant precedent found." instead of guessing.
 
+Live demo: https://legal-case-research-assistant-ccfjbazcmevwz5vrzuwppa.streamlit.app/
+
+It runs on Groq's free tier, so it has daily limits. A free app that has been idle can also take a while to wake up on the first visit.
+
 ## What it does
 
 You ask something like "Will an appeals court consider an argument that was raised for the first time on appeal?" It finds the passages that matter, drafts a few claims, and checks each claim against the source before showing it. Every claim you see comes with the exact sentence from the opinion that backs it. Opinions the court marked as unpublished, or Second Circuit summary orders, carry a warning that they are not binding precedent.
