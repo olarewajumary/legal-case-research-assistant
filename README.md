@@ -4,7 +4,7 @@ Ask a legal question, get back a short answer built only from real U.S. court op
 
 Live demo: https://legal-case-research-assistant-ccfjbazcmevwz5vrzuwppa.streamlit.app/
 
-It runs on Groq's free tier, so it has daily limits. A free app that has been idle can also take a while to wake up on the first visit.
+It runs on Groq's free tier, so it has daily limits: 5 questions per visitor every 10 minutes and 40 per day across everyone, to stay inside Groq's free quota. A free app that has been idle can also take a while to wake up on the first visit.
 
 ## What it does
 
@@ -68,6 +68,7 @@ The same pipeline runs on a local 3B model through Ollama, with no internet. I r
 - OCR typos and footnote numbers remain in some chunk text.
 - A broad question can get a narrow answer. The contract answer comes from a single maritime opinion.
 - A second, off-topic claim can pass verification, because the check proves the words exist, not that they answer the question.
+- The demo's daily counter lives in memory, so it resets when the app restarts, and a new browser window gets a fresh per-visitor count.
 
 ## Running it yourself
 
