@@ -23,6 +23,7 @@ SYSTEM = (
 def squash(text):
     return re.sub(r"[^a-z0-9]", "", text.lower())
 
+
 OPENERS = "(\u201c\u2018\"'["
 CLOSERS = ".;,:)\u201d\u2019\"'?]"
 
