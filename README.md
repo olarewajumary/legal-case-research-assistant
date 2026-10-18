@@ -67,8 +67,8 @@ The same pipeline runs on a local 3B model through Ollama, with no internet. I r
 
 ## Running it yourself
 
-    git clone <your repo URL>
-    cd legal-rag
+    git clone https://github.com/olarewajumary/legal-case-research-assistant.git
+    cd legal-case-research-assistant
     python -m venv .venv
     .venv\Scripts\activate
     pip install -r requirements.txt
