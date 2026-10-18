@@ -1,6 +1,9 @@
 .venv/
 .env
 __pycache__/
-data/
+data/*
+!data/chunks.json
+!data/embeddings.npy
+data_backup_demo/
 *_out.txt
 scratch/
