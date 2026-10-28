@@ -6,9 +6,7 @@ Ask a legal question and get an answer built only from real U.S. court opinions,
 ![Python](https://img.shields.io/badge/python-3-blue)
 ![LLM](https://img.shields.io/badge/LLM-Groq%20%7C%20Ollama-orange)
 
-<!-- Uncomment after adding the files to docs/ (see capture instructions):
 ![Demo](docs/demo.gif)
--->
 
 **Live demo:** https://legal-case-research-assistant-ccfjbazcmevwz5vrzuwppa.streamlit.app/ (no login needed)
 
