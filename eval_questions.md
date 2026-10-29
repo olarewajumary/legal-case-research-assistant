@@ -101,11 +101,19 @@ Threshold sweep (2026-10-29, cross-encoder scores only, no model calls): lowest 
 16. Question: Can police search a car without a warrant?
    Expected: refused (no automobile-exception opinions in the collection; one passing mention of warrantless searches in a child-welfare case)
 
+   Result (2026-10-29, Groq, eval_run.py, 1 run): correct refusal.
+
 17. Question: What is the First Amendment standard for student speech in public schools?
    Expected: refused (no student-speech opinions in the collection)
 
+   Result (2026-10-29, Groq, eval_run.py, 1 run, then read with read_case.py): NOT REFUSED, wrong answer shown. Best gate score 3.18, above every other refusal and above most answerable questions, so no threshold separates it. Both claims passed verification, quoting Lee-Walker v. NYC Department of Education, a Second Circuit summary order about a teacher's speech. The court there says neither Garcetti nor Hazelwood clearly governs and affirms on qualified immunity, so the claim that Hazelwood is the student speech standard is wrong. Same gap as judge regression cases 14 and 15 (court describing a standard, not adopting it). My keyword coverage check missed this because it never searched for "hazelwood". Threshold not changed.
+
 18. Question: How long do I have to sue for breach of a written contract?
    Expected: refused (no statute-of-limitations opinions in the collection)
+   
+   Result (2026-10-29, Groq, eval_run.py, 1 run): correct refusal.
 
 19. Question: Can a court award emotional distress damages for breach of contract?
    Expected: refused (no such rule in the collection; emotional distress appears only inside citations in one unrelated case)
+
+   Result (2026-10-29, Groq, eval_run.py, 1 run): correct refusal.
