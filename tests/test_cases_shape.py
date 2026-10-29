@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from regression_judge import CASES, CHUNKS_FILE
 
-EXPECTED_CASES = 15
+EXPECTED_CASES = 16
 
 with open(CHUNKS_FILE, encoding="utf-8") as f:
     chunk_ids = {c["chunk_id"] for c in json.load(f)}

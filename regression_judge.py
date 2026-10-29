@@ -26,6 +26,7 @@ CASES = [
     ("To overcome qualified immunity, a plaintiff must show both a constitutional violation and that the right was clearly established.", J, True),
     ("Punitive damages may be awarded in breach of contract cases involving fraud.", "7007101-180", False),
     ("Punitive damages are traditionally unavailable for breach of contract.", "7007101-22", False),
+    ("The First Amendment standard for student speech in public schools is the Hazelwood standard, requiring limits be reasonably related to legitimate pedagogical concerns.", "8684153-2", False),
 ]
 
 def load_chunk_texts():
