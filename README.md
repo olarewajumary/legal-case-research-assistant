@@ -13,8 +13,8 @@ Ask a legal question and get an answer built only from real U.S. court opinions,
 It runs on Groq's free tier, so it limits each visitor to 5 questions every 10 minutes and 40 per day across everyone. A free app that has been idle can also take a while to wake up on the first visit.
 
 > ### Results at a glance
-> - **15 evaluation questions**, with expected answers committed to git *before* the first run
-> - **4 of 4** out-of-scope questions correctly refused
+> - **19 evaluation questions** (11 answerable, 8 that should be refused), with expected answers committed to git *before* the first run
+> - **7 of 8** refusals correct: all 4 clearly out-of-scope questions, and 3 of 4 near-miss questions. The one miss (student speech) showed a wrong answer, and I logged it
 > - **13 of 15** on the answer-checking model's own regression set. The 2 failures are left in on purpose
 > - **11 answerable questions on Groq:** 4 clean hits, 4 hits that are flaky between runs, 2 right case but part of the rule missing, 1 never answered safely
 > - **Limit to know:** 33 opinions, two circuits, and I wrote the questions myself. These are small samples, not benchmarks
@@ -52,7 +52,7 @@ Early on, a claim about punitive damages was "supported" by a line that was only
 
 ## How I tested it
 
-I wrote 15 evaluation questions (11 answerable, 4 that should be refused) and committed the expected case, answer and warning **before** running any of them. A script (`eval_run.py`) runs them and scores the first claim on opinion and warning. Whether the quote really states the rule is judged by me, by hand, because a script can't do that reliably.
+I wrote 15 evaluation questions (11 answerable, 4 that should be refused) and committed the expected case, answer and warning **before** running any of them. Later I added 4 near-miss refusal questions (topics close to my collection that it doesn't cover), also committed before running.
 
 The judge also has its own 15-case regression set (`regression_judge.py`), which scores 13 of 15. The two misses are real failures I haven't fixed.
 
@@ -68,7 +68,8 @@ Small samples, so no percentages. Groq, from my log:
 | Correct case, but flaky (some runs unverified) | Q9, Q10, Q13, Q15 |
 | Right case, claim missing part of the rule | Q3, Q11 |
 | Never answered safely | Q12 |
-| Refused correctly | Q4 to Q7 (4 of 4) |
+| Refused correctly | Q4 to Q7 (4 of 4), Q16, Q18, Q19 |
+| Should have refused, showed a wrong answer | Q17 |
 
 "Flaky" means the writer's output varies from run to run, even at temperature 0. Q9 once failed because the writer returned broken JSON, so I added one retry.
 
@@ -76,13 +77,13 @@ Q12 failed on every run, five in total. The opinion is a short summary order tha
 
 ### Offline mode
 
-The same pipeline on a local 3B model (Ollama), with no internet, one run per question: 4 of 4 refusals correct. Of the 11 answerable, 2 returned the right opinion, 8 came back unverified, and 1 returned the wrong opinion. The 3B model often cuts off its JSON, and my retry can't fix that because it resends the identical request. So offline mode refuses correctly and usually fails safe, but it rarely answers.
+The same pipeline on a local 3B model (Ollama), with no internet, run once on the first 15 questions (not the 4 near-miss ones): 4 of 4 refusals correct. Of the 11 answerable, 2 returned the right opinion, 8 came back unverified, and 1 returned the wrong opinion. The 3B model often cuts off its JSON, and my retry can't fix that because it resends the identical request. So offline mode refuses correctly and usually fails safe, but it rarely answers.
 
 ## Limitations
 
 - Small collection: 33 opinions, two circuits. I wrote the questions and the labels myself.
 - The judge sometimes accepts a court that is only reporting another case's reasoning.
-- The refusal threshold (0.0) separates my 15 test questions cleanly: the highest refusal scored -3.80 and the lowest answerable question scored 0.51. But all 4 refusals are far from the collection's topic, and I haven't tested near-miss questions, so I don't know how it behaves on those.
+- The refusal threshold (0.0) separated my first 15 questions cleanly (highest refusal -3.80, lowest answerable 0.51), but a near-miss question about student speech scored 3.18 and got through. It matched a teacher's-speech opinion that quotes the Hazelwood standard without adopting it. No threshold fixes that one without also refusing questions the collection does answer.
 - The writer is not repeatable. Some questions pass on one run and fail on the next.
 - No check for later history, so an opinion that was reversed or vacated is not flagged.
 - Two different opinions share the name "Chamber of Commerce of the US v. Rob Bonta", so everything is keyed on opinion ID, not case name.
