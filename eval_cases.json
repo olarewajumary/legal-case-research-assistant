@@ -88,5 +88,29 @@
     "question": "If an insurance policy is genuinely ambiguous about whether an aggregate limit covers property damage, how is the ambiguity resolved?",
     "expected_opinion_id": "11314602",
     "expected_warning": false
+  },
+    {
+    "id": 16,
+    "question": "Can police search a car without a warrant?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 17,
+    "question": "What is the First Amendment standard for student speech in public schools?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 18,
+    "question": "How long do I have to sue for breach of a written contract?",
+    "expected_opinion_id": null,
+    "expected_warning": null
+  },
+  {
+    "id": 19,
+    "question": "Can a court award emotional distress damages for breach of contract?",
+    "expected_opinion_id": null,
+    "expected_warning": null
   }
 ]

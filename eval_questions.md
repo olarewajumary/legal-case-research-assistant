@@ -97,3 +97,15 @@ Scripted run (2026-10-17, Groq, eval_run.py, 1 run per question): 6 of 7 answera
 Offline run (2026-10-18, Ollama llama3.2:3b writer and judge, eval_run.py, 1 run per question): 4 of 4 refusals correct. Of 11 answerable questions: 2 case match (Q3, Q9; claims not read), 8 unverified, 1 wrong case (Q12). Writer JSON was truncated on several questions; the single retry fired each time and failed because it resends the same request. Reading: offline mode refuses correctly and mostly fails safe, but answers rarely, and returned a wrong opinion once (Q12, not inspected). Single run each, so no rates.
 
 Threshold sweep (2026-10-29, cross-encoder scores only, no model calls): lowest answerable best score 0.51 (Q13), highest refusal best score -3.80 (Q6). Thresholds from -2.0 to 0.0 keep 11 of 11 answerable and refuse 4 of 4. At -4.0 one refusal slips through; at 1.0 one answerable question is refused. In-sample check on questions I wrote, all 4 refusals far from the collection's topic.
+
+16. Question: Can police search a car without a warrant?
+   Expected: refused (no automobile-exception opinions in the collection; one passing mention of warrantless searches in a child-welfare case)
+
+17. Question: What is the First Amendment standard for student speech in public schools?
+   Expected: refused (no student-speech opinions in the collection)
+
+18. Question: How long do I have to sue for breach of a written contract?
+   Expected: refused (no statute-of-limitations opinions in the collection)
+
+19. Question: Can a court award emotional distress damages for breach of contract?
+   Expected: refused (no such rule in the collection; emotional distress appears only inside citations in one unrelated case)
