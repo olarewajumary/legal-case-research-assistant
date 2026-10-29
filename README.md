@@ -82,7 +82,7 @@ The same pipeline on a local 3B model (Ollama), with no internet, one run per qu
 
 - Small collection: 33 opinions, two circuits. I wrote the questions and the labels myself.
 - The judge sometimes accepts a court that is only reporting another case's reasoning.
-- The refusal threshold (0.0) has only been checked on a few questions.
+- The refusal threshold (0.0) separates my 15 test questions cleanly: the highest refusal scored -3.80 and the lowest answerable question scored 0.51. But all 4 refusals are far from the collection's topic, and I haven't tested near-miss questions, so I don't know how it behaves on those.
 - The writer is not repeatable. Some questions pass on one run and fail on the next.
 - No check for later history, so an opinion that was reversed or vacated is not flagged.
 - Two different opinions share the name "Chamber of Commerce of the US v. Rob Bonta", so everything is keyed on opinion ID, not case name.
