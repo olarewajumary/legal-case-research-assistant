@@ -5,18 +5,26 @@ ce = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 THRESHOLD = 0.0
 REFUSAL = "No relevant precedent found."
+NO_SCORE = float("-inf")
+
+
+def refusal_result(best_score):
+    """Build the refusal answer, so the empty case and the low-score case share one shape."""
+    return {"answerable": False, "best_score": best_score, "message": REFUSAL, "chunks": []}
 
 
 def retrieve(query, candidates_n=10, keep=3):
     """Return the best chunks, or a refusal if nothing clears the threshold."""
     candidates = hybrid_search(query, top_n=candidates_n)
+    if not candidates:
+        return refusal_result(NO_SCORE)
     scores = ce.predict([(query, chunks[i]["text"]) for i, *_ in candidates])
     ranked = sorted(zip([c[0] for c in candidates], scores), key=lambda x: x[1], reverse=True)
 
     best = float(ranked[0][1])
     passing = [(i, float(s)) for i, s in ranked if s >= THRESHOLD][:keep]
     if not passing:
-        return {"answerable": False, "best_score": best, "message": REFUSAL, "chunks": []}
+        return refusal_result(best)
     return {"answerable": True, "best_score": best, "message": None, "chunks": passing}
 
 
