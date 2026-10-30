@@ -117,3 +117,5 @@ Threshold sweep (2026-10-29, cross-encoder scores only, no model calls): lowest 
    Expected: refused (no such rule in the collection; emotional distress appears only inside citations in one unrelated case)
 
    Result (2026-10-29, Groq, eval_run.py, 1 run): correct refusal.
+
+Judge regression (2026-10-30, Groq): 13 of 16. Cases 14 and 15 unchanged. New case 16 (the Q17 Hazelwood claim against Lee-Walker chunk 8684153-2) was accepted as ASSERTS, so the judge shares the gap that let Q17 through. The judge only sees one chunk; I did not check whether the "neither Garcetti nor Hazelwood clearly governs" sentence is in that chunk. Single run.

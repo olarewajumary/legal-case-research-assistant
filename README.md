@@ -15,7 +15,7 @@ It runs on Groq's free tier, so it limits each visitor to 5 questions every 10 m
 > ### Results at a glance
 > - **19 evaluation questions** (11 answerable, 8 that should be refused), with expected answers committed to git *before* the first run
 > - **7 of 8** refusals correct: all 4 clearly out-of-scope questions, and 3 of 4 near-miss questions. The one miss (student speech) showed a wrong answer, and I logged it
-> - **13 of 15** on the answer-checking model's own regression set. The 2 failures are left in on purpose
+> - **13 of 16** on the answer-checking model's own regression set. The 3 failures are left in on purpose
 > - **11 answerable questions on Groq:** 4 clean hits, 4 hits that are flaky between runs, 2 right case but part of the rule missing, 1 never answered safely
 > - **Limit to know:** 33 opinions, two circuits, and I wrote the questions myself. These are small samples, not benchmarks
 
@@ -54,7 +54,7 @@ Early on, a claim about punitive damages was "supported" by a line that was only
 
 I wrote 15 evaluation questions (11 answerable, 4 that should be refused) and committed the expected case, answer and warning **before** running any of them. Later I added 4 near-miss refusal questions (topics close to my collection that it doesn't cover), also committed before running.
 
-The judge also has its own 15-case regression set (`regression_judge.py`), which scores 13 of 15. The two misses are real failures I haven't fixed.
+The judge also has its own 16-case regression set (`regression_judge.py`), which scores 13 of 16. The three misses are real failures I haven't fixed. The third was added after a wrong answer got through the live pipeline with the same flaw.
 
 Tests that make no API calls cover the citation filter, the JSON parser and retry, question selection, the warning text, the shape of the regression set, and the request limiter.
 
@@ -82,7 +82,7 @@ The same pipeline on a local 3B model (Ollama), with no internet, run once on th
 ## Limitations
 
 - Small collection: 33 opinions, two circuits. I wrote the questions and the labels myself.
-- The judge sometimes accepts a court that is only reporting another case's reasoning.
+- The judge sometimes accepts a court that is only describing a standard or reporting another case's reasoning (regression cases 15 and 16). Nothing downstream catches it, and one wrong answer on a near-miss question got through that way.
 - The refusal threshold (0.0) separated my first 15 questions cleanly (highest refusal -3.80, lowest answerable 0.51), but a near-miss question about student speech scored 3.18 and got through. It matched a teacher's-speech opinion that quotes the Hazelwood standard without adopting it. No threshold fixes that one without also refusing questions the collection does answer.
 - The writer is not repeatable. Some questions pass on one run and fail on the next.
 - No check for later history, so an opinion that was reversed or vacated is not flagged.
@@ -108,7 +108,7 @@ Python, CourtListener API, sentence-transformers (MiniLM), BM25, a cross-encoder
 | `limiter.py` | Request-limit logic |
 | `collect.py`, `clean_text.py`, `text_extract.py`, `chunker.py`, `build_chunks.py`, `embed_chunks.py`, `cl_client.py` | Data pipeline |
 | `eval_run.py`, `eval_cases.json`, `eval_questions.md` | Evaluation runner, cases, and the log with results |
-| `regression_judge.py` | The judge's 15-case regression set |
+| `regression_judge.py` | The judge's 16-case regression set |
 | `tests/` | Unit tests |
 | `data/` | `chunks.json` and `embeddings.npy` (the demo runs from these) |
 | `scripts/old_experiments/` | Exploration scripts from building the pipeline |
