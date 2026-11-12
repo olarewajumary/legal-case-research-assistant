@@ -5,6 +5,7 @@ Ask a legal question and get an answer built only from real U.S. court opinions,
 [![Live demo](https://img.shields.io/badge/live%20demo-Streamlit-FF4B4B)](https://legal-case-research-assistant-ccfjbazcmevwz5vrzuwppa.streamlit.app/)
 ![Python](https://img.shields.io/badge/python-3-blue)
 ![LLM](https://img.shields.io/badge/LLM-Groq%20%7C%20Ollama-orange)
+![tests](https://github.com/olarewajumary/legal-case-research-assistant/actions/workflows/tests.yml/badge.svg)
 
 ![Demo](docs/demo.gif)
 
