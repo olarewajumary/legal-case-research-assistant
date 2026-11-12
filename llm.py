@@ -8,6 +8,7 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
 
 
 def _groq_chat(messages, role):
+    """Call Groq with the model for this role. Returns (text, finish_reason, model_name)."""
     from groq import Groq
 
     models = {"writer": os.getenv("GROQ_MODEL"), "judge": os.getenv("GROQ_JUDGE_MODEL")}
@@ -20,6 +21,7 @@ def _groq_chat(messages, role):
 
 
 def _ollama_chat(messages, role):
+    """Call the local Ollama server. Returns (text, finish_reason, model_name)."""
     import requests
 
     response = requests.post(
@@ -42,6 +44,7 @@ PROVIDERS = {"groq": _groq_chat, "ollama": _ollama_chat}
 
 
 def describe(role):
+    """Return a short label like 'groq / model-name' for logging which model runs this role."""
     if PROVIDER == "ollama":
         return f"ollama / {OLLAMA_MODEL}"
     names = {"writer": os.getenv("GROQ_MODEL"), "judge": os.getenv("GROQ_JUDGE_MODEL")}
