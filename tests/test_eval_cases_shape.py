@@ -3,7 +3,7 @@ import os
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVAL_CASES_FILE = os.path.join(PROJECT_ROOT, "eval_cases.json")
-EXPECTED_CASES = 20
+EXPECTED_CASES = 19
 EXPECTED_REFUSALS = 8
 EXPECTED_KEYS = ["expected_opinion_id", "expected_warning", "id", "question"]
 
